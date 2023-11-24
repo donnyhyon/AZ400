@@ -21,6 +21,5 @@ app.UseSwaggerUI(c =>
 
 // App instance sets-up routing.
 app.MapGet("/", () => "Hello World!");
-app.MapGet("/health", () => "Hello World!");
 
 app.Run();
