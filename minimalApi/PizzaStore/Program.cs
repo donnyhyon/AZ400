@@ -1,4 +1,6 @@
 using Microsoft.OpenApi.Models;
+using PizzaStore.DB;
+
 
 // Can add Services to builder. e.g `builder.Services.AddCors(options => {});
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +13,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-
 app.MapHealthChecks("/health");
 app.UseSwagger();
 app.UseSwaggerUI(c =>
@@ -20,6 +21,28 @@ app.UseSwaggerUI(c =>
    });
 
 // App instance sets-up routing.
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "mmm I love pizza");
+app.MapGet("/pizzas/{id}", (int id) => {
+   PizzaDB.GetPizza(id);
+});
+app.MapGet("/pizzas",() => {
+   PizzaDB.GetPizzas();
+});
+
+app.MapPost("/pizzas", (Pizza pizza) => {
+   PizzaDB.CreatePizza(pizza);
+});
+
+app.MapPut("/pizzs", (Pizza pizza) => {
+   PizzaDB.UpdatePizza(pizza);
+});
+
+app.MapDelete("/pizza/{id}", (int id) => {
+   PizzaDB.RemovePizza(id);
+});
+
+
+
+
 
 app.Run();
